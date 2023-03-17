@@ -42,7 +42,12 @@ def get_movies(list):
     return only_movies
 
 def get_series(list):
-    sorted_series = []
+    only_series = []
+    for movie in list:
+        if isinstance(movie, Series):
+            only_series.append(movie)
+            only_series = sorted(only_series, key=lambda movie: movie.title)
+    return only_series
 
 film1 = Films(title='Gladiator', year=2000, movie_type='action', views=123)
 film2 = Films(title='Red Roses', year=1994, movie_type='dramat', views=456)
@@ -58,5 +63,5 @@ serial5 = Series(title='Świat według kiepskich', year=1999, movie_type='comedy
 
 films_list = [film1, film2, film3, film4, film5, serial1, serial2, serial3, serial4, serial5]
 
-print(get_movies(films_list))
+print(get_series(films_list))
 
