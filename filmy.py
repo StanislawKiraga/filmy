@@ -34,11 +34,15 @@ class Series(Films):
         return f'Serial:[{self.title}, S{self.season_number:02}E{self.episod_number:02}]'
     
 def get_movies(list):
-    sorted_movies = []
+    only_movies = []
     for movie in list:
         if not isinstance(movie, Series):
-            sorted_movies.append(movie)
-    return sorted_movies
+            only_movies.append(movie)    
+            only_movies = sorted(only_movies, key=lambda movie: movie.title)       
+    return only_movies
+
+def get_series(list):
+    sorted_series = []
 
 film1 = Films(title='Gladiator', year=2000, movie_type='action', views=123)
 film2 = Films(title='Red Roses', year=1994, movie_type='dramat', views=456)
