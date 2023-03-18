@@ -87,7 +87,7 @@ if __name__ == "__main__":
     print(50 * '-')
     print(films_list)
     print(50 * '-')
-    print(f'Najpopularniejsze filmy i seriale dnia {date.today()}:')
+    print(f'Najpopularniejsze filmy i seriale dnia {date.today():%d-%m-%Y}:')
     for top in top_title(3):
         print(f'{top.title}, Views:{top.nr_view}')
 
