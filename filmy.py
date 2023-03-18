@@ -1,6 +1,6 @@
 from faker import Faker
 fake = Faker()
-import datetime
+from datetime import date
 import random
 from functools import wraps
 
@@ -9,13 +9,19 @@ class Films:
         self.title = title
         self.year = year
         self.movie_type = movie_type
+
+        self.nr_view = random.randint(1, 1000)
+
+    def play(self, step=1):
+        self.nr_view += step
+        
     
     def __str__(self):
         return f'{self.title}, {self.year}'
 
     def __repr__(self):
-        return f'[{self.title}, year:{self.year}, type:{self.movie_type}]'
-
+        return f'[{self.title}, year:{self.year}, type:{self.movie_type}, view:{self.nr_view}]'
+    
 class Series(Films):
     def __init__(self, season_number, episod_number, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,7 +32,7 @@ class Series(Films):
         return f'{self.title}, S{self.season_number:02}E{self.episod_number:02}'
     
     def __repr__(self):
-        return f'Serial:[{self.title}, S{self.season_number:02}E{self.episod_number:02}]'
+        return f'Serial:[{self.title}, S{self.season_number:02}E{self.episod_number:02}, view:{self.nr_view}]'
     
 
 film1 = Films(title='Gladiator', year=2000, movie_type='action')
@@ -43,9 +49,9 @@ serial5 = Series(title='Świat według kiepskich', year=1999, movie_type='comedy
 
 films_list = [film1, film2, film3, film4, film5, serial1, serial2, serial3, serial4, serial5]
 
-def get_movies(list):
+def get_movies():
     only_movies = []
-    for movie in list:
+    for movie in films_list:
         if not isinstance(movie, Series):
             only_movies.append(movie)    
             only_movies = sorted(only_movies, key=lambda movie: movie.title)       
@@ -68,6 +74,21 @@ def generate_10_times():
     for i in range(10):
         print(generate_views())
     
-def generate_views(y=random.randint(1, 100)):
-    return f'{random.choice(films_list)}, Views:{y}'
-    
+def generate_views(x=random.randint(1, 100)):
+    return f'{random.choice(films_list)}, Views:{x}'
+
+def top_title(x=0):
+    tops = [film for film in sorted(films_list, key=lambda movie: movie.nr_view, reverse=True)]
+    return tops[:x]
+
+
+if __name__ == "__main__":
+    print('Biblioteka filmów')
+    print(50 * '-')
+    print(films_list)
+    print(50 * '-')
+    print(f'Najpopularniejsze filmy i seriale dnia {date.today()}:')
+    for top in top_title(3):
+        print(f'{top.title}, Views:{top.nr_view}')
+
+        
