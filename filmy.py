@@ -2,6 +2,7 @@ from faker import Faker
 fake = Faker()
 import datetime
 import random
+from functools import wraps
 
 class Films:
     def __init__(self, title, year, movie_type):
@@ -63,11 +64,10 @@ def search(x):
         if movie.title == x:
             print(movie)
 
+def generate_10_times():
+    for i in range(10):
+        print(generate_views())
+    
 def generate_views(y=random.randint(1, 100)):
     return f'{random.choice(films_list)}, Views:{y}'
-    
-
-
-print(generate_views())
-
     
